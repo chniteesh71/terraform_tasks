@@ -7,18 +7,18 @@ resource "null_resource" "name" {
     host        = aws_eip.bastion_eip.public_ip
     user        = "ec2-user"
     password    = ""
-    private_key = file("private-key/jenkins-key.pem")
+    private_key = file("private-key/server-key.pem")
   }
 
   ## File Provisioner: Copies the terraform-key.pem file to /tmp/terraform-key.pem
   provisioner "file" {
-    source      = "private-key/jenkins-key.pem"
-    destination = "/tmp/jenkins-key.pem"
+    source      = "private-key/server-key.pem"
+    destination = "/tmp/server-key.pem"
   }
   ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 400 /tmp/jenkins-key.pem"
+      "sudo chmod 400 /tmp/server-key.pem"
     ]
   }
   ## Local Exec Provisioner:  local-exec provisioner (Creation-Time Provisioner - Triggered during Create Resource)
@@ -37,6 +37,3 @@ resource "null_resource" "name" {
   */
 
 }
-
-# Creation Time Provisioners - By default they are created during resource creations (terraform apply)
-# Destory Time Provisioners - Will be executed during "terraform destroy" command (when = destroy)
