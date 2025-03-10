@@ -12,13 +12,13 @@ resource "null_resource" "name" {
 
   ## File Provisioner: Copies the terraform-key.pem file to /tmp/terraform-key.pem
   provisioner "file" {
-    source      = "private-key/jenkins-key.pem"
-    destination = "/tmp/jenkins-key.pem"
+    source      = "private-key/server-key.pem"
+    destination = "/tmp/server-key.pem"
   }
   ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 400 /tmp/jenkins-key.pem"
+      "sudo chmod 400 /tmp/server-key.pem"
     ]
   }
   ## Local Exec Provisioner:  local-exec provisioner (Creation-Time Provisioner - Triggered during Create Resource)
@@ -38,6 +38,3 @@ resource "null_resource" "name" {
   */
 }
 
-# try the `date` as $(date)
-# Creation Time Provisioners - By default they are created during resource creations (terraform apply)
-# Destory Time Provisioners - Will be executed during "terraform destroy" command (when = destroy)

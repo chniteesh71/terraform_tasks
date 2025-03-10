@@ -18,17 +18,3 @@ module "ec2_private_app1" {
   subnet_id              = element(module.vpc.private_subnets, tonumber(each.key))
   vpc_security_group_ids = [module.private_sg.security_group_id]
 }
-
-
-
-#elemnt(list,index)
-#eg : element([1,2,3],0)
-#    : 1
-#eg : element([a,b,c],2)
-#    : c
-
-# ELEMENT Function
-# terraform console 
-# element(["Sample1", "Sample2", "Sample3"], 0) -> Sample1
-# element([Sample1", "Sample2", "Sample3"], 1) -> Sample2
-# element([Sample1", "Sample2", "Sample3"], 2) -> Sample3
